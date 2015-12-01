@@ -14,6 +14,9 @@
 		<li role="presentation">
 			<a href="#tab-issues" aria-controls="tab-issues" role="tab" data-toggle="tab">{{ @dict.issues }}</a>
 		</li>
+		<li role="presentation">
+			<a href="#tab-top-issues" aria-controls="tab-issues" role="tab" data-toggle="tab">Top {{ @dict.issues }}</a>
+		</li>
 	</ul>
 
 	<div class="tab-content">
@@ -89,7 +92,7 @@
 							<thead>
 								<tr>
 									<th>{{ @dict.name }}</th>
-									<th>Count</th>
+									<th>Hours</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -105,8 +108,96 @@
 				</div>
 			</div>
 		</div>
+
 		<div role="tabpanel" class="tab-pane fade" id="tab-issues">
-			<p>Issue stats are not yet available.</p>
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="well well-sm text-center">
+						<h4>Total Hours Spent</h4>
+						<h2>{{ number_format(@issues_total_hours_spent, 2) }}</h2>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="well well-sm text-center">
+						<h4>Average Hours Spent</h4>
+						<h2>{{ number_format(@issues_avg_hours_spent, 2) }}</h2>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="well well-sm text-center">
+						<h4>Total Closed</h4>
+						<h2>{{ @issues_total_closed }}</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div role="tabpanel" class="tab-pane fade" id="tab-top-issues">
+			<div class="row">
+				<div class="col-md-4">
+					<h3>Most Comments</h3>
+					<div class="table-responsive">
+						<table class="table table-condensed table-striped">
+							<thead>
+								<tr>
+									<th>{{ @dict.name }}</th>
+									<th>Count</th>
+								</tr>
+							</thead>
+							<tbody>
+								<repeat group="{{ @top_issue_comments }}" value="{{ @row }}">
+									<tr ondblclick="window.location='{{ @BASE }}/issues/{{ @row.id }}';">
+										<td>{{ @row.name }}</td>
+										<td>{{ @row.num }}</td>
+									</tr>
+								</repeat>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<h3>Most Updates</h3>
+					<div class="table-responsive">
+						<table class="table table-condensed table-striped">
+							<thead>
+								<tr>
+									<th>{{ @dict.name }}</th>
+									<th>Count</th>
+								</tr>
+							</thead>
+							<tbody>
+								<repeat group="{{ @top_issue_updates }}" value="{{ @row }}">
+									<tr ondblclick="window.location='{{ @BASE }}/issues/{{ @row.id }}';">
+										<td>{{ @row.name }}</td>
+										<td>{{ @row.num }}</td>
+									</tr>
+								</repeat>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<h3>Hours Spent</h3>
+					<div class="table-responsive">
+						<table class="table table-condensed table-striped">
+							<thead>
+								<tr>
+									<th>{{ @dict.name }}</th>
+									<th>Hours</th>
+								</tr>
+							</thead>
+							<tbody>
+								<repeat group="{{ @top_issue_hours }}" value="{{ @row }}">
+									<tr ondblclick="window.location='{{ @BASE }}/issues/{{ @row.id }}';">
+										<td>{{ @row.name }}</td>
+										<td>{{ round(@row.num, 2) }}</td>
+									</tr>
+								</repeat>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
