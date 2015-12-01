@@ -14,16 +14,42 @@
 		<li role="presentation">
 			<a href="#tab-issues" aria-controls="tab-issues" role="tab" data-toggle="tab">{{ @dict.issues }}</a>
 		</li>
-		<li role="presentation">
-			<a href="#tab-top-issues" aria-controls="tab-issues" role="tab" data-toggle="tab">Top {{ @dict.issues }}</a>
-		</li>
 	</ul>
 
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane fade in active" id="tab-users">
+			<h3>Averages</h3>
+			<div class="row">
+				<div class="col-md-3 col-sm-6">
+					<div class="well well-sm text-center">
+						<h4>{{ @dict.created_issues }}</h4>
+						<h2>{{ number_format(@user_avg_created, 2) }}</h2>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="well well-sm text-center">
+						<h4>Comments</h4>
+						<h2>{{ number_format(@user_avg_comments, 2) }}</h2>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="well well-sm text-center">
+						<h4>Updates</h4>
+						<h2>{{ number_format(@user_avg_updates, 2) }}</h2>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="well well-sm text-center">
+						<h4>{{ @dict.cols.hours_spent }}</h4>
+						<h2>{{ number_format(@user_avg_hours_spent, 2) }}</h2>
+					</div>
+				</div>
+			</div>
+
+			<h3>Top Users</h3>
 			<div class="row">
 				<div class="col-md-3">
-					<h3>{{ @dict.created_issues }}</h3>
+					<h4>{{ @dict.created_issues }}</h4>
 					<div class="table-responsive">
 						<table class="table table-condensed table-striped">
 							<thead>
@@ -44,7 +70,7 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-					<h3>Closed Issues</h3>
+					<h4>Closed Issues</h4>
 					<div class="table-responsive">
 						<table class="table table-condensed table-striped">
 							<thead>
@@ -65,7 +91,7 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-					<h3>Issue Updates</h3>
+					<h4>Issue Updates</h4>
 					<div class="table-responsive">
 						<table class="table table-condensed table-striped">
 							<thead>
@@ -86,7 +112,7 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-					<h3>{{ @dict.cols.hours_spent }}</h3>
+					<h4>{{ @dict.cols.hours_spent }}</h4>
 					<div class="table-responsive">
 						<table class="table table-condensed table-striped">
 							<thead>
@@ -130,9 +156,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div role="tabpanel" class="tab-pane fade" id="tab-top-issues">
 			<div class="row">
 				<div class="col-md-4">
 					<h3>Most Comments</h3>

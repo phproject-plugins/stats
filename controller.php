@@ -9,6 +9,42 @@ class Controller extends \Controller {
 		$db = $f3->get("db.instance");
 
 		// User stats
+		$result = $db->exec("SELECT AVG(a.num) num
+				FROM (
+					SELECT COUNT(*) AS num
+					FROM issue i
+					GROUP BY i.author_id
+					HAVING num > 0
+				) a");
+		$f3->set("user_avg_created", $result[0]['num']);
+
+		$result = $db->exec("SELECT AVG(a.num) num
+				FROM (
+					SELECT COUNT(*) num
+					FROM issue_comment c
+					GROUP BY c.user_id
+				) a");
+		$f3->set("user_avg_comments", $result[0]['num']);
+
+		$result = $db->exec("SELECT AVG(a.num) num
+				FROM (
+					SELECT COUNT(*) num
+					FROM issue_update u
+					GROUP BY u.user_id
+				) a");
+		$f3->set("user_avg_updates", $result[0]['num']);
+
+		$result = $db->exec("SELECT AVG(a.num) num
+				FROM (
+					SELECT SUM(new_value - old_value) num
+					FROM issue_update_field f
+					JOIN issue_update u ON u.id = f.issue_update_id
+					WHERE f.field = 'hours_spent'
+					GROUP BY u.user_id
+					HAVING num > 0
+				) a");
+		$f3->set("user_avg_hours_spent", $result[0]['num']);
+
 		$result = $db->exec("SELECT author_name name, COUNT(*) num
 				FROM issue_detail
 				GROUP BY author_id
@@ -55,7 +91,6 @@ class Controller extends \Controller {
 		$result = $db->exec("SELECT COUNT(*) num FROM issue WHERE closed_date IS NOT NULL");
 		$f3->set("issues_total_closed", $result[0]['num']);
 
-		// Top issue stats
 		$result = $db->exec("SELECT i.id, i.name, COUNT(*) num
 				FROM issue i
 				JOIN issue_comment c ON c.issue_id = i.id
