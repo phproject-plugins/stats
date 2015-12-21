@@ -171,7 +171,7 @@
 							<tbody>
 								<repeat group="{{ @top_issue_comments }}" value="{{ @row }}">
 									<tr ondblclick="window.location='{{ @BASE }}/issues/{{ @row.id }}';">
-										<td>{{ @row.name }}</td>
+										<td><a href="{{ @BASE }}/issues/{{ @row.id }}">{{ @row.name }}</a></td>
 										<td>{{ @row.num }}</td>
 									</tr>
 								</repeat>
@@ -192,7 +192,7 @@
 							<tbody>
 								<repeat group="{{ @top_issue_updates }}" value="{{ @row }}">
 									<tr ondblclick="window.location='{{ @BASE }}/issues/{{ @row.id }}';">
-										<td>{{ @row.name }}</td>
+										<td><a href="{{ @BASE }}/issues/{{ @row.id }}">{{ @row.name }}</a></td>
 										<td>{{ @row.num }}</td>
 									</tr>
 								</repeat>
@@ -213,7 +213,7 @@
 							<tbody>
 								<repeat group="{{ @top_issue_hours }}" value="{{ @row }}">
 									<tr ondblclick="window.location='{{ @BASE }}/issues/{{ @row.id }}';">
-										<td>{{ @row.name }}</td>
+										<td><a href="{{ @BASE }}/issues/{{ @row.id }}">{{ @row.name }}</a></td>
 										<td>{{ round(@row.num, 2) }}</td>
 									</tr>
 								</repeat>
