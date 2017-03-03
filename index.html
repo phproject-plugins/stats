@@ -2,6 +2,15 @@
 <html lang="{{ @this->lang() }}">
 <head>
 	<include href="blocks/head.html" />
+	<style type="text/css">
+		.tab-pane .progress {
+			margin: 0 auto;
+			max-width: 200px;
+		}
+		.tab-pane .progress .progress-bar {
+			width: 100%;
+		}
+	</style>
 </head>
 <body>
 <div class="container">
@@ -9,6 +18,9 @@
 
 	<ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active">
+			<a href="#tab-trends" aria-controls="tab-trends" role="tab" data-toggle="tab">Trends</a>
+		</li>
+		<li role="presentation">
 			<a href="#tab-users" aria-controls="tab-users" role="tab" data-toggle="tab">{{ @dict.users }}</a>
 		</li>
 		<li role="presentation">
@@ -17,215 +29,112 @@
 	</ul>
 
 	<div class="tab-content">
-		<div role="tabpanel" class="tab-pane fade in active" id="tab-users">
-			<h3>Averages</h3>
-			<div class="row">
-				<div class="col-md-3 col-sm-6">
-					<div class="well well-sm text-center">
-						<h4>{{ @dict.created_issues }}</h4>
-						<h2>{{ number_format(@user_avg_created, 2) }}</h2>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-6">
-					<div class="well well-sm text-center">
-						<h4>Comments</h4>
-						<h2>{{ number_format(@user_avg_comments, 2) }}</h2>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-6">
-					<div class="well well-sm text-center">
-						<h4>Updates</h4>
-						<h2>{{ number_format(@user_avg_updates, 2) }}</h2>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-6">
-					<div class="well well-sm text-center">
-						<h4>{{ @dict.cols.hours_spent }}</h4>
-						<h2>{{ number_format(@user_avg_hours_spent, 2) }}</h2>
-					</div>
-				</div>
+		<div role="tabpanel" class="tab-pane active" id="tab-trends">
+			<div>
+				<h2>Daily</h2>
+				<canvas id="daily" width="960" height="200"></canvas>
 			</div>
-
-			<h3>Top Users</h3>
-			<div class="row">
-				<div class="col-md-3">
-					<h4>{{ @dict.created_issues }}</h4>
-					<div class="table-responsive">
-						<table class="table table-condensed table-striped">
-							<thead>
-								<tr>
-									<th>{{ @dict.name }}</th>
-									<th>Count</th>
-								</tr>
-							</thead>
-							<tbody>
-								<repeat group="{{ @user_created }}" value="{{ @row }}">
-									<tr>
-										<td>{{ @row.name }}</td>
-										<td>{{ @row.num }}</td>
-									</tr>
-								</repeat>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<h4>Closed Issues</h4>
-					<div class="table-responsive">
-						<table class="table table-condensed table-striped">
-							<thead>
-								<tr>
-									<th>{{ @dict.name }}</th>
-									<th>Count</th>
-								</tr>
-							</thead>
-							<tbody>
-								<repeat group="{{ @user_closed }}" value="{{ @row }}">
-									<tr>
-										<td>{{ @row.name }}</td>
-										<td>{{ @row.num }}</td>
-									</tr>
-								</repeat>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<h4>Issue Updates</h4>
-					<div class="table-responsive">
-						<table class="table table-condensed table-striped">
-							<thead>
-								<tr>
-									<th>{{ @dict.name }}</th>
-									<th>Count</th>
-								</tr>
-							</thead>
-							<tbody>
-								<repeat group="{{ @user_updates }}" value="{{ @row }}">
-									<tr>
-										<td>{{ @row.name }}</td>
-										<td>{{ @row.num }}</td>
-									</tr>
-								</repeat>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<h4>{{ @dict.cols.hours_spent }}</h4>
-					<div class="table-responsive">
-						<table class="table table-condensed table-striped">
-							<thead>
-								<tr>
-									<th>{{ @dict.name }}</th>
-									<th>Hours</th>
-								</tr>
-							</thead>
-							<tbody>
-								<repeat group="{{ @user_hours }}" value="{{ @row }}">
-									<tr>
-										<td>{{ @row.name }}</td>
-										<td>{{ round(@row.num, 2) }}</td>
-									</tr>
-								</repeat>
-							</tbody>
-						</table>
-					</div>
-				</div>
+			<div>
+				<h2>Monthly</h2>
+				<canvas id="monthly" width="960" height="200"></canvas>
 			</div>
 		</div>
-
-		<div role="tabpanel" class="tab-pane fade" id="tab-issues">
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="well well-sm text-center">
-						<h4>Total Hours Spent</h4>
-						<h2>{{ number_format(@issues_total_hours_spent, 2) }}</h2>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="well well-sm text-center">
-						<h4>Average Hours Spent</h4>
-						<h2>{{ number_format(@issues_avg_hours_spent, 2) }}</h2>
-					</div>
-				</div>
-				<div class="col-sm-4">
-					<div class="well well-sm text-center">
-						<h4>Total Closed</h4>
-						<h2>{{ @issues_total_closed }}</h2>
-					</div>
-				</div>
+		<div role="tabpanel" class="tab-pane" id="tab-users">
+			<div class="progress progress-striped active">
+				<div class="progress-bar"></div>
 			</div>
-
-			<div class="row">
-				<div class="col-md-4">
-					<h3>Most Comments</h3>
-					<div class="table-responsive">
-						<table class="table table-condensed table-striped">
-							<thead>
-								<tr>
-									<th>{{ @dict.name }}</th>
-									<th>Count</th>
-								</tr>
-							</thead>
-							<tbody>
-								<repeat group="{{ @top_issue_comments }}" value="{{ @row }}">
-									<tr ondblclick="window.location='{{ @BASE }}/issues/{{ @row.id }}';">
-										<td><a href="{{ @BASE }}/issues/{{ @row.id }}">{{ @row.name }}</a></td>
-										<td>{{ @row.num }}</td>
-									</tr>
-								</repeat>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<h3>Most Updates</h3>
-					<div class="table-responsive">
-						<table class="table table-condensed table-striped">
-							<thead>
-								<tr>
-									<th>{{ @dict.name }}</th>
-									<th>Count</th>
-								</tr>
-							</thead>
-							<tbody>
-								<repeat group="{{ @top_issue_updates }}" value="{{ @row }}">
-									<tr ondblclick="window.location='{{ @BASE }}/issues/{{ @row.id }}';">
-										<td><a href="{{ @BASE }}/issues/{{ @row.id }}">{{ @row.name }}</a></td>
-										<td>{{ @row.num }}</td>
-									</tr>
-								</repeat>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<h3>Hours Spent</h3>
-					<div class="table-responsive">
-						<table class="table table-condensed table-striped">
-							<thead>
-								<tr>
-									<th>{{ @dict.name }}</th>
-									<th>Hours</th>
-								</tr>
-							</thead>
-							<tbody>
-								<repeat group="{{ @top_issue_hours }}" value="{{ @row }}">
-									<tr ondblclick="window.location='{{ @BASE }}/issues/{{ @row.id }}';">
-										<td><a href="{{ @BASE }}/issues/{{ @row.id }}">{{ @row.name }}</a></td>
-										<td>{{ round(@row.num, 2) }}</td>
-									</tr>
-								</repeat>
-							</tbody>
-						</table>
-					</div>
-				</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="tab-issues">
+			<div class="progress progress-striped active">
+				<div class="progress-bar"></div>
 			</div>
 		</div>
 	</div>
 
 	<include href="blocks/footer.html" />
+	<script src="{{ @BASE }}/js/chart.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var chartOptions = {
+					maintainAspectRatio: false,
+					legend: {
+						position: 'left',
+						labels: {
+							boxWidth: 1
+						}
+					},
+					animation: {
+						duration: 250
+					},
+					tooltips: {
+						mode: 'x-axis',
+						titleSpacing: 0,
+						titleMarginBottom: 3,
+						yPadding: 4,
+					},
+					hover: {
+						mode: 'x-axis'
+					},
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						}]
+					},
+					elements: {
+						line: {
+							tension: 0.3,
+							borderWidth: 2,
+						},
+						point: {
+							radius: 2,
+							hoverRadius: 3,
+							hitRadius: 15,
+						}
+					}
+				};
+
+			Chart.defaults.global.defaultFontColor = "rgba(127,127,127,1)";
+			Chart.defaults.scale.gridLines.color = "rgba(127,127,127,.3)";
+			Chart.defaults.scale.gridLines.zeroLineColor = "rgba(127,127,127,.3)";
+
+			// Load trends immediately
+			$.get(BASE + '/stats/trends', function(data) {
+				var dCtx = document.getElementById("daily").getContext("2d");
+				var daily = new Chart(dCtx, {
+					type: 'line',
+					data: data.daily,
+					options: chartOptions
+				});
+
+				var mCtx = document.getElementById("monthly").getContext("2d");
+				var monthly = new Chart(mCtx, {
+					type: 'line',
+					data: data.monthly,
+					options: chartOptions
+				});
+
+				// @todo: display monthly data
+			}, 'json').fail(function() {
+				$('#tab-trends').empty().append($('<p />').addClass('text-center text-danger').text('Error loading data'));
+			});
+
+			// Defer loading secondary tabs
+			setTimeout(function() {
+				$.get(BASE + '/stats/users', function(data) {
+					$('#tab-users').html(data);
+				}).fail(function() {
+					$('#tab-users').empty().append($('<p />').addClass('text-center text-danger').text('Error loading data'));
+				});
+				$.get(BASE + '/stats/issues', function(data) {
+					$('#tab-issues').html(data);
+				}).fail(function() {
+					$('#tab-issues').empty().append($('<p />').addClass('text-center text-danger').text('Error loading data'));
+				});
+			}, 1000);
+		});
+	</script>
 </div>
 </body>
 </html>

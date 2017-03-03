@@ -1,0 +1,115 @@
+<h3>Averages</h3>
+<div class="row">
+	<div class="col-md-3 col-sm-6">
+		<div class="well well-sm text-center">
+			<h4>{{ @dict.created_issues }}</h4>
+			<h2>{{ number_format(@user_avg_created, 2) }}</h2>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6">
+		<div class="well well-sm text-center">
+			<h4>Comments</h4>
+			<h2>{{ number_format(@user_avg_comments, 2) }}</h2>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6">
+		<div class="well well-sm text-center">
+			<h4>Updates</h4>
+			<h2>{{ number_format(@user_avg_updates, 2) }}</h2>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6">
+		<div class="well well-sm text-center">
+			<h4>{{ @dict.cols.hours_spent }}</h4>
+			<h2>{{ number_format(@user_avg_hours_spent, 2) }}</h2>
+		</div>
+	</div>
+</div>
+
+<h3>Top Users</h3>
+<div class="row">
+	<div class="col-md-3">
+		<h4>{{ @dict.created_issues }}</h4>
+		<div class="table-responsive">
+			<table class="table table-condensed table-striped">
+				<thead>
+					<tr>
+						<th>{{ @dict.name }}</th>
+						<th>Count</th>
+					</tr>
+				</thead>
+				<tbody>
+					<repeat group="{{ @user_created }}" value="{{ @row }}">
+						<tr>
+							<td>{{ @row.name }}</td>
+							<td>{{ @row.num }}</td>
+						</tr>
+					</repeat>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<h4>Closed Issues</h4>
+		<div class="table-responsive">
+			<table class="table table-condensed table-striped">
+				<thead>
+					<tr>
+						<th>{{ @dict.name }}</th>
+						<th>Count</th>
+					</tr>
+				</thead>
+				<tbody>
+					<repeat group="{{ @user_closed }}" value="{{ @row }}">
+						<tr>
+							<td>{{ @row.name }}</td>
+							<td>{{ @row.num }}</td>
+						</tr>
+					</repeat>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<h4>Issue Updates</h4>
+		<div class="table-responsive">
+			<table class="table table-condensed table-striped">
+				<thead>
+					<tr>
+						<th>{{ @dict.name }}</th>
+						<th>Count</th>
+					</tr>
+				</thead>
+				<tbody>
+					<repeat group="{{ @user_updates }}" value="{{ @row }}">
+						<tr>
+							<td>{{ @row.name }}</td>
+							<td>{{ @row.num }}</td>
+						</tr>
+					</repeat>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<h4>{{ @dict.cols.hours_spent }}</h4>
+		<div class="table-responsive">
+			<table class="table table-condensed table-striped">
+				<thead>
+					<tr>
+						<th>{{ @dict.name }}</th>
+						<th>Hours</th>
+					</tr>
+				</thead>
+				<tbody>
+					<repeat group="{{ @user_hours }}" value="{{ @row }}">
+						<tr>
+							<td>{{ @row.name }}</td>
+							<td>{{ round(@row.num, 2) }}</td>
+						</tr>
+					</repeat>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

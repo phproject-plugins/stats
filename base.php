@@ -35,6 +35,9 @@ class Base extends \Plugin {
 	function _load() {
 		$f3 = \Base::instance();
 		$f3->route("GET /stats", "Plugin\Stats\Controller->index");
+		$f3->route("GET /stats/trends", "Plugin\Stats\Controller->trends");
+		$f3->route("GET /stats/users", "Plugin\Stats\Controller->users");
+		$f3->route("GET /stats/issues", "Plugin\Stats\Controller->issues");
 
 		// Post stats if last update was more than one week ago
 		if($f3->get("statsplugin.last_sent") < strtotime("-1 week")) {
@@ -81,7 +84,7 @@ class Base extends \Plugin {
 
 	/**
 	 * Asynchronously post data via HTTP and sockets
-	 * @see    http://stackoverflow.com/q/14587514/873843
+	 * @link   http://stackoverflow.com/q/14587514/873843
 	 * @param  string $url
 	 * @param  array  $params
 	 */
