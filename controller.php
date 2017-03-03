@@ -105,9 +105,9 @@ class Controller extends \Controller {
 					], [
 						"data" => array_values($dailyCreated),
 						"label" => $f3->get("dict.cols.created"),
-						"borderColor" => "#9b59b6",
-						"pointBackgroundColor" => "#9b59b6",
-						"pointBorderColor" => "#9b59b6",
+						"borderColor" => "#2ecc71",
+						"pointBackgroundColor" => "#2ecc71",
+						"pointBorderColor" => "#2ecc71",
 					]
 				]
 			],
@@ -123,9 +123,9 @@ class Controller extends \Controller {
 					], [
 						"data" => array_values($monthlyCreated),
 						"label" => $f3->get("dict.cols.created"),
-						"borderColor" => "#9b59b6",
-						"pointBackgroundColor" => "#9b59b6",
-						"pointBorderColor" => "#9b59b6",
+						"borderColor" => "#2ecc71",
+						"pointBackgroundColor" => "#2ecc71",
+						"pointBorderColor" => "#2ecc71",
 					]
 				]
 			],
